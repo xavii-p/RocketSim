@@ -29,12 +29,12 @@ To run the Rocket Simulator, you need to have Java and Maven installed on your s
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/yourusername/rocketsimulator.git
-   cd rocketsimulator
+   git clone https://github.com/xavii-p/RocketSim.git
+   cd RocketSim
    ```
 
 2. **Build the Project**:
-   _Navigate to project root directory i.e. /rocketsimulator_
+   _Navigate to project root directory i.e. /RocketSim_
 
    _Use Maven to build the project:_
 
