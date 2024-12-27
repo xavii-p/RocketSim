@@ -3,6 +3,7 @@ package rocket;
 
 import java.util.Random;
 
+
 /**
  * A class used to add user interaction functionality to the Rocket class.
  */
@@ -24,10 +25,6 @@ public class UserControlledRocket extends Rocket {
 		
         super(x, y, fuel, groundY);
         
-        Random random = new Random();
-        double randomAngle = random.nextDouble() * 360; // Random angle between 0 and 360 degrees
-        setDirection(randomAngle);
-		
 	}
 	
 	/**
