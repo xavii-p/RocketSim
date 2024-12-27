@@ -385,9 +385,11 @@ public class Simulation extends Application {
 		private int height;
 	
 		// Hex code for the menu's background color
-		private String backgroundColorHex = "#0033A0";
+		private String backgroundColorHex = "#5318e6";
 		private String buttonColorHex = "#E4002B";
-		private String textColorHex = "#8A8D8F";
+		private String buttonGradientStyle = 
+			"-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #E4002B, #FF5733);"; // Example gradient
+		private String textColorHex = "#ffffff";
 
 		private String headingFontFamily = "Tahoma";
 		private int headingFontSize = 50;
@@ -574,7 +576,7 @@ public class Simulation extends Application {
 				author.getTranslateY() + author.getLayoutBounds().getHeight() + textButtonMargin);
 			startComputerButton.setFont(buttonFont);
 			startComputerButton.setStyle(
-				"-fx-background-color: " + getButtonColorHex() + ";" + 
+				buttonGradientStyle + 
 				"-fx-text-fill: " + getTextColorHex() + ";");
 			startComputerButton.setOnAction(event -> startPIDSimulation(stage));
 	
@@ -585,7 +587,7 @@ public class Simulation extends Application {
 			startUserButton.setOnAction(event -> startUserControlledSimulation(stage));
 			startUserButton.setFont(buttonFont);
 			startUserButton.setStyle(
-				"-fx-background-color: " + getButtonColorHex() + ";" + 
+				buttonGradientStyle + 
 				"-fx-text-fill: " + getTextColorHex() + ";");
 			stackPane.getChildren().addAll(startComputerButton, startUserButton);
 
@@ -596,7 +598,7 @@ public class Simulation extends Application {
 			optionsMenuButton.setOnAction(event -> showOptionsMenu(stage));
 			optionsMenuButton.setFont(buttonFont);
 			optionsMenuButton.setStyle(
-				"-fx-background-color: " + getButtonColorHex() + ";" +
+				buttonGradientStyle + 
 				"-fx-text-fill: " + getTextColorHex() + ";");
 			stackPane.getChildren().add(optionsMenuButton);
 
@@ -616,7 +618,7 @@ public class Simulation extends Application {
 			backToMainMenu.setOnAction(event -> showTitleScreen(getPrimaryStage()));
 			backToMainMenu.setFont(buttonFont);
 			backToMainMenu.setStyle(
-				"-fx-background-color: " + getButtonColorHex() + ";" +
+				buttonGradientStyle + 
 				"-fx-text-fill: " + getTextColorHex() + ";");
 
 			return backToMainMenu;
@@ -793,7 +795,7 @@ public class Simulation extends Application {
 			double rocketX = WIDTH  / 2;
 			double xVelocity = Math.random() * getMaxSpeed() * 2 - getMaxSpeed();
 			Vector2D acceleration = new Vector2D(0.0, World.GRAVITY);
-			PIDRocket autoRocket = new PIDRocket(rocketX, 
+			Rocket autoRocket = new Rocket(rocketX, 
 				world.getGroundY() - getInitialRocketHeight(),
 				getInitialFuel(), 
 				world.getGroundY());
