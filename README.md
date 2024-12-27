@@ -50,8 +50,8 @@ To run the Rocket Simulator, you need to have Java and Maven installed on your s
 
 ## Usage
 
-- **Automatic Landing**: Select the automatic landing option to see the PID-controlled rocket in action (WIP).
-- **Manual Control**: Use the keyboard to control the rocket's thrust and orientation.
+- **Automatic Landing**: Select the automatic landing option to see the PID-controlled rocket in action. Feel free to adjust the PID parameters (kP, kI, kD) to see how they affect the rocket's landing in the _Rocket.java_ file.
+- **Manual Control**: Use the keyboard (W, A, D) to control the rocket's thrust and orientation.
 
 ## Controls
 
