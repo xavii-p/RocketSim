@@ -10,7 +10,6 @@ Welcome to the Rocket Simulator! This project simulates rocket landings using di
 - [Usage](#usage)
 - [Controls](#controls)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
