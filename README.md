@@ -1,4 +1,7 @@
 # Rocket Simulator
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![RocketSim Start Menu](public/images/rocketsim-1.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![RocketSim Interface](public/images/rocketsim-2.png)
 
 Welcome to the Rocket Simulator! This project simulates rocket landings using different control strategies, including PID control and user-controlled maneuvers.
 
@@ -33,17 +36,15 @@ To run the Rocket Simulator, you need to have Java and Maven installed on your s
    cd RocketSim
    ```
 
-2. **Build the Project**:
+2. **Use Maven to build the project**:
    _Navigate to project root directory i.e. /RocketSim_
-
-   _Use Maven to build the project:_
 
    ```bash
    mvn clean compile
    ```
 
-3. **Run the Application**:
-   Start the simulation using Maven:
+3. **Start the simulation using Maven:**:
+   
    ```bash
    mvn javafx:run
    ```
