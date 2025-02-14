@@ -65,7 +65,7 @@ public class Rocket extends Entity {
         };
 		
         this.targetAltitude = groundY;
-        this.pidController = new PIDController(0.5, 0.1, 0.001);
+        this.pidController = new PIDController(0.2, 0.3, 0.01);
         this.pidController.setOutputLimits(0, 250);
 
 
@@ -479,7 +479,7 @@ public class Rocket extends Entity {
 	 * flight to appropriate values
 	 */
 	public void stop() {
-		
+
 		if (isAirborne()) {
 
 			// Turn off visual effects
@@ -494,46 +494,82 @@ public class Rocket extends Entity {
 
 			setLandingVelocity(getVelocity().getMagnitude());
 
-			if (
-				getVelocity().getMagnitude() < getAcceptableLandingVelocity() &&
-				Math.abs(getDirection() - 90) <= getLandingAngleMargin()
-			) {
+			if (getVelocity().getMagnitude() < getAcceptableLandingVelocity() &&
+					Math.abs(getDirection() - 90) <= getLandingAngleMargin()) {
 				// Good landing, make the Rocket point straight up
 				setDirection(90);
 
-			} 
+			}
 
 			getVelocity().setX(0);
 			getVelocity().setY(0);
 
 		}
-		
+
 	}
+
+	// Time tracking for pulsing thrust
+	private double thrustCooldownTimer = 0;
+	private boolean isThrustOn = false; // Track whether thrust is active
 
 	@Override
 	public void tick(double timeElapsed) {
 
-		pidController.reset();
+		// pidController.reset();
 
 		if (isAirborne()) {
-			
 			double currentAltitude = getY();
-            double error = targetAltitude - currentAltitude;
-			double controlOutput = pidController.compute(error, timeElapsed);
-			
-			// Automatic hoverslam
-			setEnginesOn(true);
-
-			pointInDirection(getVelocity().getDirection() - 180, timeElapsed);
-
-			for (RocketEngine engine : getEngines()) {
-				engine.setThrustPower(controlOutput);
-				engine.setOn(true);
+			double verticalVelocity = getVelocity().getY();
+	
+			// Calculate altitude difference and desired velocity
+			double altitudeDifference = targetAltitude - currentAltitude;
+			double desiredVerticalVelocity = altitudeDifference > 0 
+				? Math.sqrt(2 * World.GRAVITY * altitudeDifference) 
+				: 0;
+	
+			// Calculate velocity error
+			double velocityError = desiredVerticalVelocity - verticalVelocity;
+	
+			// Calculate PID control output
+			double controlOutput = pidController.compute(velocityError, timeElapsed);
+	
+			// Update cooldown timer
+			thrustCooldownTimer -= timeElapsed;
+	
+			// Thrust pulsing logic
+			if (thrustCooldownTimer <= 0) {
+				if (isThrustOn) {
+					// Turn off thrust
+					isThrustOn = false;
+					// Higher up = longer off time
+					thrustCooldownTimer = Math.min(.75, altitudeDifference / 300);
+				} else {
+					// Turn on thrust
+					isThrustOn = true;
+					// Lower = shorter on time
+					thrustCooldownTimer = Math.max(6.0, altitudeDifference / 100.0);
+				}
 			}
-			
+
+			double thrustScale = 0.3;  // Minimum 30% power at max height
+			if (altitudeDifference < 200) {
+				// Linear scale from 30% at high altitude to 100% near ground
+				thrustScale = 5.0 - (altitudeDifference / 200.0) * 0.9;
+			}
+	
+			// Apply thrust based on conditions
+			for (RocketEngine engine : getEngines()) {
+				if (isThrustOn && velocityError > 0) {
+					double scaledThrust = controlOutput * thrustScale;
+					engine.setThrustPower(Math.min(scaledThrust, 250));
+					engine.setOn(true);
+				} else {
+					engine.setOn(false);
+				}
+			}
+	
 			applyThrust(timeElapsed);
-			applyForces(timeElapsed); // should be last
-			
+			applyForces(timeElapsed);
 		}
 		
 		for (RocketEngine engine : getEngines()) {
